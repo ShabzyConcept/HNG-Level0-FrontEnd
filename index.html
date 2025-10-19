@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shedrack - Profile Card</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <article class="profile-card" data-testid="test-profile-card">
+      <div class="card-content">
+        <header class="card-header">
+          <figure class="avatar-container">
+            <img
+              src="Shed.jpg"
+              alt="Profile picture of Ichaba Shedrack"
+              class="avatar"
+              data-testid="test-user-avatar"
+            />
+          </figure>
+          <div class="user-info">
+            <h2 data-testid="test-user-name">Ichaba Shedrack</h2>
+            <p class="user-bio" data-testid="test-user-bio">
+              Frontend developer passionate about creating accessible and
+              performant web experiences. I love solving problems and also
+              passionate about open-source.
+            </p>
+            <div
+              class="current-time"
+              data-testid="test-user-time"
+              id="currentTime"
+            ></div>
+          </div>
+        </header>
+
+        <nav
+          class="social-links-nav"
+          data-testid="test-user-social-links"
+          aria-label="Social media links"
+        >
+          <a
+            href="https://github.com/ShabzyConcept"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="test-user-social-github"
+          >
+            <span aria-hidden="true">GitHub</span>
+          </a>
+          <a
+            href="https://twitter.com/AquaTrades_1"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="test-user-social-twitter"
+          >
+            <span aria-hidden="true">Twitter</span>
+          </a>
+          <a
+            href="https://linkedin.com/in/ichabaShedrack"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="test-user-social-linkedin"
+          >
+            <span aria-hidden="true">LinkedIn</span>
+          </a>
+        </nav>
+
+        <div class="details-section">
+          <section class="section hobbies-section">
+            <h3><span aria-hidden="true"></span> Hobbies</h3>
+            <ul data-testid="test-user-hobbies">
+              <li>Bringing my ideas into reality with Few lines of code</li>
+              <li>Researching on Web3 technologies</li>
+              <li>Reading the Word of God</li>
+              <li>Reading tech blogs and books</li>
+              <li>Singing</li>
+            </ul>
+          </section>
+
+          <section class="section dislikes-section">
+            <h3><span aria-hidden="true"></span> Dislikes</h3>
+            <ul data-testid="test-user-dislikes">
+              <li>Poorly documented code</li>
+              <li>Unnecessary meetings</li>
+              <li>Inaccessible websites</li>
+              <li>Technical debts</li>
+              <li>Inseincerity</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </article>
+    <script src="short.js"></script>
+  </body>
+</html>
