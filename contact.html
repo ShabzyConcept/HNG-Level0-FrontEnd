@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - My Portfolio</title>
+    <link rel="stylesheet" href="contact.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="contact.html" aria-current="page">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <main id="main-content">
+      <div class="card">
+        <h1>Contact Us</h1>
+
+        <div
+          class="success-message"
+          data-testid="test-contact-success"
+          role="alert"
+          aria-live="polite"
+        >
+          Thank you for your message! We'll get back to you soon.
+        </div>
+
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="fullName">
+              Full Name <span class="required" aria-label="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              data-testid="test-contact-name"
+              aria-required="true"
+              aria-describedby="name-error"
+              required
+            />
+            <div
+              class="error-message"
+              id="name-error"
+              data-testid="test-contact-error-name"
+              role="alert"
+            >
+              Please enter your full name.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">
+              Email <span class="required" aria-label="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              data-testid="test-contact-email"
+              aria-required="true"
+              aria-describedby="email-error"
+              required
+            />
+            <div
+              class="error-message"
+              id="email-error"
+              data-testid="test-contact-error-email"
+              role="alert"
+            >
+              Please enter a valid email address (e.g., name@example.com).
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">
+              Subject <span class="required" aria-label="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              data-testid="test-contact-subject"
+              aria-required="true"
+              aria-describedby="subject-error"
+              required
+            />
+            <div
+              class="error-message"
+              id="subject-error"
+              data-testid="test-contact-error-subject"
+              role="alert"
+            >
+              Please enter a subject.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">
+              Message <span class="required" aria-label="required">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              data-testid="test-contact-message"
+              aria-required="true"
+              aria-describedby="message-error"
+              required
+            ></textarea>
+            <div
+              class="error-message"
+              id="message-error"
+              data-testid="test-contact-error-message"
+              role="alert"
+            >
+              Please enter a message (at least 10 characters).
+            </div>
+          </div>
+
+          <button type="submit" data-testid="test-contact-submit">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      const form = document.getElementById("contactForm");
+      const successMessage = document.querySelector(
+        '[data-testid="test-contact-success"]'
+      );
+
+      const fields = {
+        fullName: {
+          input: document.getElementById("fullName"),
+          error: document.getElementById("name-error"),
+          validate: (value) => value.trim().length > 0,
+        },
+        email: {
+          input: document.getElementById("email"),
+          error: document.getElementById("email-error"),
+          validate: (value) => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(value.trim());
+          },
+        },
+        subject: {
+          input: document.getElementById("subject"),
+          error: document.getElementById("subject-error"),
+          validate: (value) => value.trim().length > 0,
+        },
+        message: {
+          input: document.getElementById("message"),
+          error: document.getElementById("message-error"),
+          validate: (value) => value.trim().length >= 10,
+        },
+      };
+
+      function validateField(fieldName) {
+        const field = fields[fieldName];
+        const value = field.input.value;
+        const isValid = field.validate(value);
+
+        if (isValid) {
+          field.input.classList.remove("error");
+          field.error.classList.remove("show");
+          field.input.setAttribute("aria-invalid", "false");
+        } else {
+          field.input.classList.add("error");
+          field.error.classList.add("show");
+          field.input.setAttribute("aria-invalid", "true");
+        }
+
+        return isValid;
+      }
+
+      // Real-time validation on blur
+      Object.keys(fields).forEach((fieldName) => {
+        fields[fieldName].input.addEventListener("blur", () => {
+          validateField(fieldName);
+        });
+
+        // Clear errors on input
+        fields[fieldName].input.addEventListener("input", () => {
+          if (fields[fieldName].error.classList.contains("show")) {
+            validateField(fieldName);
+          }
+        });
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Hide success message
+        successMessage.classList.remove("show");
+
+        // Validate all fields
+        let isFormValid = true;
+        Object.keys(fields).forEach((fieldName) => {
+          if (!validateField(fieldName)) {
+            isFormValid = false;
+          }
+        });
+
+        if (isFormValid) {
+          // Show success message
+          successMessage.classList.add("show");
+
+          // Reset form
+          form.reset();
+
+          // Clear all error states
+          Object.keys(fields).forEach((fieldName) => {
+            fields[fieldName].input.classList.remove("error");
+            fields[fieldName].error.classList.remove("show");
+            fields[fieldName].input.removeAttribute("aria-invalid");
+          });
+
+          // Focus success message for screen readers
+          successMessage.focus();
+
+          // Scroll to top
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          // Focus first invalid field
+          const firstInvalid = Object.keys(fields).find((fieldName) =>
+            fields[fieldName].input.classList.contains("error")
+          );
+          if (firstInvalid) {
+            fields[firstInvalid].input.focus();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
